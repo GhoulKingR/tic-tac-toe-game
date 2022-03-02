@@ -6,8 +6,8 @@ wss.on('connection', function (ws) {
   console.log('player connected');
 
   ws.on('message', function (play) {
-    console.log(play);
-    let game = JSON.parse(play);
+    console.log(play.toJSON());
+    let game = JSON.parse(play.toString());
     gameBoard[game['pos']] = game['character'];
     ws.send(gameBoard);
   });

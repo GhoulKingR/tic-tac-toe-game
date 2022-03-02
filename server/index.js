@@ -5,6 +5,7 @@ wss.on('connection', function (ws) {
   let gameBoard = ['', '', '', '', '', '', '', '', ''];
 
   ws.on('message', function (play) {
+    console.log(play);
     let game = JSON.parse(play);
     gameBoard[game['pos']] = game['character'];
     ws.send(gameBoard);

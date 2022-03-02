@@ -1,33 +1,39 @@
 let WSServer = require('ws').Server,
+    wss = new WSServer({ port: 8181 }),
     express = require('express'),
     cors = require('cors'),
     app = express(),
     rooms = {};
 
-function initRoom(room) {
-  room[0].on('connection', function (ws) {
-    room[2].push(ws);
-    console.log('player connected');
+wss.on('connection', function (ws) {
+  console.log('player connected');
 
-    ws.on('message', function (play) {
-      console.log(play.toString());
-      let game = JSON.parse(play.toString());
-      room[1][game['pos']] = game['character'];
-      for (let i = 0; i < room[2].length; i++) room[2][i].send(JSON.stringify(room[1]));
-    });
+  ws.on('message', function (play) {
+    let game = JSON.parse(play.toString()),
+        {token, request, pos, character} = game;
 
-    ws.on('closed', function () {
-      console.log('Player disconnected');
-    })
+    if (request === 'add') {
+      console.log('player added');
+      rooms[token][1].push(ws);
+    } else if (request === 'play') {
+      rooms[token][0][pos] = character;
+
+      for (let i = 0; i < rooms[token][1].length; i++) {
+        rooms[token][1][i].send(
+          JSON.stringify({
+            board: rooms[token][0]
+          })
+        )
+      }
+    }
   });
-}
+});
 
 app.use(cors());
 
 app.post('/createroom', function (req, res) {
   let token = Math.floor(Math.random() * 1000).toString() + Math.floor(Date.now()).toString();
-  rooms[token] = [new WSServer({ port: 8181, path: '/' + token }), ['', '', '', '', '', '', '', '', ''], []];
-  initRoom(rooms[token]);
+  rooms[token] = [['', '', '', '', '', '', '', '', ''], []];
   res.send(token);
 });
 

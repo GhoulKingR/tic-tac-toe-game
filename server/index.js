@@ -16,12 +16,13 @@ wss.on('connection', function (ws) {
       console.log('player added');
       rooms[token][1].push(ws);
     } else if (request === 'play') {
-      rooms[token][0][pos] = character;
+      rooms[token][0][pos] = rooms[token][2];
+      rooms[token][2] = rooms[token][2] == 'x' ? 'o' : 'x';
 
       for (let i = 0; i < rooms[token][1].length; i++) {
         rooms[token][1][i].send(
           JSON.stringify({
-            board: rooms[token][0]
+            board: rooms[token][0],
           })
         )
       }
@@ -33,7 +34,7 @@ app.use(cors());
 
 app.post('/createroom', function (req, res) {
   let token = Math.floor(Math.random() * 1000).toString() + Math.floor(Date.now()).toString();
-  rooms[token] = [['', '', '', '', '', '', '', '', ''], []];
+  rooms[token] = [['', '', '', '', '', '', '', '', ''], [], 'x'];
   res.send(token);
 });
 

@@ -36,20 +36,18 @@
       
             for (let i = 0; i < 9; i++) {
               cell.item(i).addEventListener('click', function () {
-                ws.send(JSON.stringify({ token, request: 'play', pos: i, character: globalTurn }));
-                globalTurn = globalTurn == 'x' ? 'o' : 'x';
+                ws.send(JSON.stringify({ token, request: 'play', pos: i }));
               });
             }
       
           ws.onmessage = function (msg) {
             let data = JSON.parse(msg.data),
                 {board} = data;
-                
+
             console.log(data);
             for (let i = 0; i < board.length; i++) {
               cell[i].innerHTML = board[i];
             }
-            globalTurn = globalTurn == 'x' ? 'o' : 'x';
           };
 
             tokenDest.innerHTML = token;
@@ -73,8 +71,7 @@
         
         for (let i = 0; i < 9; i++) {
           cell.item(i).addEventListener('click', function () {
-            ws.send(JSON.stringify({ token, request: 'play', pos: i, character: globalTurn }));
-            globalTurn = globalTurn == 'x' ? 'o' : 'x';
+            ws.send(JSON.stringify({ token, request: 'play', pos: i }));
           });
         }
         
@@ -86,7 +83,6 @@
           for (let i = 0; i < board.length; i++) {
             cell[i].innerHTML = board[i];
           }
-          globalTurn = globalTurn == 'x' ? 'o' : 'x';
         };
       }
     }

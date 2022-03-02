@@ -11,6 +11,29 @@
       border: 2px solid black;
     }
   </style>
+  <script>
+    let globalTurn = 'x';
+
+    window.onload = function () {
+      let cell = document.getElementsByClassName("cell"),
+          ws = new WebSocket('ws://localhost:8080/room1');
+
+      for (let i = 0; i < 9; i++) {
+        cell.item(i).addEventListener('click', function () {
+          ws.send(JSON.stringify({ pos: i, character: globalTurn }));
+          globalTurn = globalTurn == 'x' ? 'o' : 'x';
+        });
+      }
+
+      ws.onmessage = function (msg) {
+        let data = JSON.parse(msg.data);
+        console.log(data);
+        for (let i = 0; i < data.length; i++) {
+          cell[i].innerHTML = data[i];
+        }
+      }
+    }
+  </script>
 </head>
 <body>
   <center>

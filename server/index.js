@@ -1,5 +1,6 @@
 let WSServer = require('ws').Server,
     express = require('express'),
+    cors = require('cors'),
     app = express(),
     rooms = {};
 
@@ -21,9 +22,11 @@ function initRoom(room) {
   });
 }
 
+app.use(cors());
+
 app.post('/createroom', function (req, res) {
   let token = Math.floor(Math.random() * 1000).toString() + Math.floor(Date.now()).toString();
-  rooms[token] = [new WSServer({ port: 8080, path: '/' + token }), ['', '', '', '', '', '', '', '', ''], []];
+  rooms[token] = [new WSServer({ port: 8181, path: '/' + token }), ['', '', '', '', '', '', '', '', ''], []];
   initRoom(rooms[token]);
   res.send(token);
 });

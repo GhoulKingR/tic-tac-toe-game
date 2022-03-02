@@ -23,32 +23,82 @@
           .then(function (token) {
             let cell = document.getElementsByClassName("cell"),
                 tokenDest = document.getElementById("token"),
-                ws = new WebSocket('ws://localhost:8181/' + token);
+                ws = new WebSocket('ws://localhost:8181/');
+            
+            ws.onopen = function () {
+              ws.send(
+                JSON.stringify({
+                  token,
+                  request: 'add'
+                })
+              );
+            };
       
             for (let i = 0; i < 9; i++) {
               cell.item(i).addEventListener('click', function () {
-                ws.send(JSON.stringify({ pos: i, character: globalTurn }));
+                ws.send(JSON.stringify({ token, request: 'play', pos: i, character: globalTurn }));
                 globalTurn = globalTurn == 'x' ? 'o' : 'x';
               });
             }
       
-            ws.onmessage = function (msg) {
-              let data = JSON.parse(msg.data);
-              console.log(data);
-              for (let i = 0; i < data.length; i++) {
-                cell[i].innerHTML = data[i];
-              }
-            };
+          ws.onmessage = function (msg) {
+            let data = JSON.parse(msg.data),
+                {board} = data;
+                
+            console.log(data);
+            for (let i = 0; i < board.length; i++) {
+              cell[i].innerHTML = board[i];
+            }
+            globalTurn = globalTurn == 'x' ? 'o' : 'x';
+          };
 
             tokenDest.innerHTML = token;
           });
       };
+
+      document.getElementById("join-game").onsubmit = function (e) {
+        e.preventDefault();
+        let cell = document.getElementsByClassName("cell"),
+            token = document.getElementById("token-in").value,
+            ws = new WebSocket('ws://localhost:8181/');
+        
+        ws.onopen = function () {
+          ws.send(
+            JSON.stringify({
+              token,
+              request: 'add'
+            })
+          );
+        };
+        
+        for (let i = 0; i < 9; i++) {
+          cell.item(i).addEventListener('click', function () {
+            ws.send(JSON.stringify({ token, request: 'play', pos: i, character: globalTurn }));
+            globalTurn = globalTurn == 'x' ? 'o' : 'x';
+          });
+        }
+        
+        ws.onmessage = function (msg) {
+          let data = JSON.parse(msg.data),
+              {board} = data;
+
+          console.log(data);
+          for (let i = 0; i < board.length; i++) {
+            cell[i].innerHTML = board[i];
+          }
+          globalTurn = globalTurn == 'x' ? 'o' : 'x';
+        };
+      }
     }
   </script>
 </head>
 <body>
   <button id="create-game">Create Game</button>
   <div id="token"></div>
+  <form id="join-game">
+    <input type="text" id="token-in" placeholder="Paste Token...">
+    <button type="submit"> Join Game </button>
+  </form>
   <center>
     <table>
       <tr>

@@ -15,27 +15,40 @@
     let globalTurn = 'x';
 
     window.onload = function () {
-      let cell = document.getElementsByClassName("cell"),
-          ws = new WebSocket('ws://localhost:8080/room1');
+      document.getElementById("create-game").onclick = function () {
+        fetch('http://localhost:8080/createroom', {
+          method: 'post'
+        })
+          .then(res => res.text())
+          .then(function (token) {
+            let cell = document.getElementsByClassName("cell"),
+                tokenDest = document.getElementById("token"),
+                ws = new WebSocket('ws://localhost:8181/' + token);
+      
+            for (let i = 0; i < 9; i++) {
+              cell.item(i).addEventListener('click', function () {
+                ws.send(JSON.stringify({ pos: i, character: globalTurn }));
+                globalTurn = globalTurn == 'x' ? 'o' : 'x';
+              });
+            }
+      
+            ws.onmessage = function (msg) {
+              let data = JSON.parse(msg.data);
+              console.log(data);
+              for (let i = 0; i < data.length; i++) {
+                cell[i].innerHTML = data[i];
+              }
+            };
 
-      for (let i = 0; i < 9; i++) {
-        cell.item(i).addEventListener('click', function () {
-          ws.send(JSON.stringify({ pos: i, character: globalTurn }));
-          globalTurn = globalTurn == 'x' ? 'o' : 'x';
-        });
-      }
-
-      ws.onmessage = function (msg) {
-        let data = JSON.parse(msg.data);
-        console.log(data);
-        for (let i = 0; i < data.length; i++) {
-          cell[i].innerHTML = data[i];
-        }
-      }
+            tokenDest.innerHTML = token;
+          });
+      };
     }
   </script>
 </head>
 <body>
+  <button id="create-game">Create Game</button>
+  <div id="token"></div>
   <center>
     <table>
       <tr>

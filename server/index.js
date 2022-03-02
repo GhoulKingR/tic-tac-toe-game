@@ -3,6 +3,7 @@ let WSServer = require('ws').Server,
 
 wss.on('connection', function (ws) {
   let gameBoard = ['', '', '', '', '', '', '', '', ''];
+  console.log('player connected');
 
   ws.on('message', function (play) {
     console.log(play);

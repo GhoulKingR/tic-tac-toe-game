@@ -9,4 +9,9 @@
 table {
   background-color: black;
   margin: 27px;
+  opacity: 0.5;
+}
+
+.hidden {
+  display: none;
 }

@@ -88,11 +88,12 @@
 <body>
   <center>
     <button id="create-game">Create Game</button>
-    <input id="token" type="text" value=""/>
-    <button onclick="copy()">Copy</button>
+    <input id="token" type="text" value="" class="hidden"/>
+    <button onclick="copy()" class="hidden">Copy</button>
+    <p>OR</p>
     <form id="join-game">
       <input type="text" id="token-in" placeholder="Paste Token...">
-      <button type="submit"> Join Game </button>
+      <button type="submit" disabled> Join Game </button>
     </form>
     <table>
       <tr>

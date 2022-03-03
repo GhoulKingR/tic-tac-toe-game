@@ -12,7 +12,49 @@
     }
   </style>
   <script>
-    let globalTurn = 'x';
+    function setupConnection(ws, token, cell) {
+      let character = '',
+          currentTurn = '';
+
+      ws.onopen = function () {
+        ws.send(
+          JSON.stringify({
+            token,
+            request: 'add'
+          })
+        );
+      };
+
+      for (let i = 0; i < 9; i++) {
+        cell.item(i).addEventListener('click', function () {
+          if (currentTurn === character) {
+            ws.send(JSON.stringify({ token, request: 'play', pos: i }));
+          }
+        });
+      }
+
+      ws.onmessage = function (msg) {
+
+        let data = JSON.parse(msg.data),
+            {type} = data;
+        console.log(data);
+        
+        if (type === 'play') {
+          let {board} = data;
+
+          currentTurn = data['currentTurn'];
+          
+          for (let i = 0; i < board.length; i++) {
+            cell.item(i).innerHTML = board[i];
+          }
+        } else if (type === 'error') {
+          alert(data['message']);
+        } else if (type === 'added') {
+          character = data['character'];
+          currentTurn = data['currentTurn'];
+        }
+      };
+    }
 
     window.onload = function () {
       document.getElementById("create-game").onclick = function () {
@@ -25,30 +67,7 @@
                 tokenDest = document.getElementById("token"),
                 ws = new WebSocket('ws://localhost:8181/');
             
-            ws.onopen = function () {
-              ws.send(
-                JSON.stringify({
-                  token,
-                  request: 'add'
-                })
-              );
-            };
-      
-            for (let i = 0; i < 9; i++) {
-              cell.item(i).addEventListener('click', function () {
-                ws.send(JSON.stringify({ token, request: 'play', pos: i }));
-              });
-            }
-      
-          ws.onmessage = function (msg) {
-            let data = JSON.parse(msg.data),
-                {board} = data;
-
-            console.log(data);
-            for (let i = 0; i < board.length; i++) {
-              cell[i].innerHTML = board[i];
-            }
-          };
+            setupConnection(ws, token, cell);
 
             tokenDest.innerHTML = token;
           });
@@ -60,30 +79,7 @@
             token = document.getElementById("token-in").value,
             ws = new WebSocket('ws://localhost:8181/');
         
-        ws.onopen = function () {
-          ws.send(
-            JSON.stringify({
-              token,
-              request: 'add'
-            })
-          );
-        };
-        
-        for (let i = 0; i < 9; i++) {
-          cell.item(i).addEventListener('click', function () {
-            ws.send(JSON.stringify({ token, request: 'play', pos: i }));
-          });
-        }
-        
-        ws.onmessage = function (msg) {
-          let data = JSON.parse(msg.data),
-              {board} = data;
-
-          console.log(data);
-          for (let i = 0; i < board.length; i++) {
-            cell[i].innerHTML = board[i];
-          }
-        };
+        setupConnection(ws, token, cell);
       }
     }
   </script>

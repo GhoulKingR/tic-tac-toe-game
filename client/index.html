@@ -52,6 +52,20 @@
     }
 
     window.onload = function () {
+      let button = document.getElementById('join-game-button');
+
+      document.getElementById("token-in").onchange = function (e) {
+        let value = e.target.value; 
+        console.log(value);
+        console.log(button.getAttribute("disabled"));
+        if (value.trim().length > 0) {
+          button.removeAttribute("disabled");
+        } else {
+          button.setAttribute("disabled", '');
+        }
+        console.log(button.getAttribute("disabled"));
+      };
+
       document.getElementById("create-game").onclick = function () {
         fetch('http://localhost:8080/createroom', {
           method: 'post'
@@ -103,7 +117,7 @@
     <p>OR</p>
     <form id="join-game">
       <input type="text" id="token-in" placeholder="Paste Token...">
-      <button type="submit" disabled> Join Game </button>
+      <button type="submit" id="join-game-button" disabled> Join Game </button>
     </form>
     <table>
       <tr>

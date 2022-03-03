@@ -58,10 +58,12 @@
         })
           .then(res => res.text())
           .then(function (token) {
-            let cell = document.getElementsByClassName("cell"),
+            let hiddens = document.getElementsByClassName("hidden"),
+                cell = document.getElementsByClassName("cell"),
                 tokenDest = document.getElementById("token"),
                 ws = new WebSocket('ws://localhost:8181/');
             
+            setupHidden(hiddens, hiddens.length);
             setupConnection(ws, token, cell);
 
             tokenDest.value = token;
@@ -70,20 +72,28 @@
 
       document.getElementById("join-game").onsubmit = function (e) {
         e.preventDefault();
-        let cell = document.getElementsByClassName("cell"),
+        let hiddens = document.getElementsByClassName("hidden"),
+            cell = document.getElementsByClassName("cell"),
             token = document.getElementById("token-in").value,
             ws = new WebSocket('ws://localhost:8181/');
-        
-        setupConnection(ws, token, cell);
+            
+          setupHidden(hiddens, hiddens.length);
+          setupConnection(ws, token, cell);
+        }
       }
-    }
-
-    function copy() {
-      let tokenDest = document.getElementById("token");
-      tokenDest.select();
-      document.execCommand('copy');
-    }
-  </script>
+        
+      function setupHidden(hiddens, len) {
+        for (let i = 0; i < len; i++) {
+          hiddens.item(0).classList.remove(['hidden']);
+        }
+      }
+        
+      function copy() {
+        let tokenDest = document.getElementById("token");
+        tokenDest.select();
+        document.execCommand('copy');
+      }
+    </script>
 </head>
 <body>
   <center>

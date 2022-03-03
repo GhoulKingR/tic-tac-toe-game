@@ -69,7 +69,7 @@
             
             setupConnection(ws, token, cell);
 
-            tokenDest.innerHTML = token;
+            tokenDest.value = token;
           });
       };
 
@@ -82,11 +82,18 @@
         setupConnection(ws, token, cell);
       }
     }
+
+    function copy() {
+      let tokenDest = document.getElementById("token");
+      tokenDest.select();
+      document.execCommand('copy');
+    }
   </script>
 </head>
 <body>
   <button id="create-game">Create Game</button>
-  <div id="token"></div>
+  <input id="token" type="text" value=""/>
+  <button onclick="copy()">Copy</button>
   <form id="join-game">
     <input type="text" id="token-in" placeholder="Paste Token...">
     <button type="submit"> Join Game </button>

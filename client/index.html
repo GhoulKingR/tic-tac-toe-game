@@ -52,7 +52,8 @@
     }
 
     window.onload = function () {
-      let button = document.getElementById('join-game-button');
+      let button = document.getElementById('join-game-button'),
+          CreateGame = document.getElementById("create-game");
 
       document.getElementById("token-in").onchange = function (e) {
         let value = e.target.value; 
@@ -66,7 +67,7 @@
         console.log(button.getAttribute("disabled"));
       };
 
-      document.getElementById("create-game").onclick = function () {
+      CreateGame.onclick = function () {
         fetch('http://localhost:8080/createroom', {
           method: 'post'
         })
@@ -77,6 +78,9 @@
                 tokenDest = document.getElementById("token"),
                 ws = new WebSocket('ws://localhost:8181/');
             
+            CreateGame.innerHTML = 'Game created';
+            CreateGame.setAttribute("disabled", '');
+
             setupHidden(hiddens, hiddens.length);
             setupConnection(ws, token, cell);
 
@@ -113,7 +117,7 @@
   <center>
     <button id="create-game">Create Game</button>
     <input id="token" type="text" value="" class="hidden"/>
-    <button onclick="copy()" class="hidden">Copy</button>
+    <button onclick="copy()" class="hidden">Copy the Token</button>
     <p>OR</p>
     <form id="join-game">
       <input type="text" id="token-in" placeholder="Paste Token...">

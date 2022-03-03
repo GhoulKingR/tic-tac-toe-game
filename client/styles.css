@@ -1,4 +1,12 @@
 .cell {
-  padding: 100px;
-  border: 2px solid black;
+  height: 100px;
+  text-align: center;
+  border: none;
+  width: 100px;
+  background: white;
+}
+
+table {
+  background-color: black;
+  margin: 27px;
 }

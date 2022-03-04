@@ -7,13 +7,8 @@
   <link rel="stylesheet" href="styles.css"/>
   <title>Document</title>
   <script>
-    function setupConnection(ws, token, cell) {
-      let character = undefined,
-          currentTurn = '',
-          gameWon = false,
-          turnIndicator = document.getElementById("turns");
-
-      ws.onopen = function () {
+    function generateOpenFunction(ws, token) {
+      return function () {
         ws.send(
           JSON.stringify({
             token,
@@ -21,57 +16,75 @@
           })
         );
       };
+    }
 
+    function setupClicks(cell, state, token, ws) {
       for (let i = 0; i < 9; i++) {
         cell.item(i).addEventListener('click', function () {
-          if (currentTurn === character && !gameWon ) {
+          console.log(state);
+          if (state['currentTurn'] === state['character'] && !state['gameWon'] ) {
             ws.send(JSON.stringify({ token, request: 'play', pos: i }));
           }
         });
       }
+    }
 
-      ws.onmessage = function (msg) {
-
+    function generateMessageFunction(state, cell, ws, token) {
+      return function (msg) {
         let data = JSON.parse(msg.data),
             {type, board} = data;
         console.log(data);
         
         if (type === 'play') {
 
-          currentTurn = data['currentTurn'];
-          indicateTurn(currentTurn);
+          state['currentTurn'] = data['currentTurn'];
+          indicateTurn(state['currentTurn'], state['character']);
           updateBoard(cell, board);
           
         } else if (type === 'error') {
           alert(data['message']);
         } else if (type === 'added') {
-          character = data['character'];
-          currentTurn = data['currentTurn'];
-          indicateTurn(currentTurn);
+          state['character'] = data['character'];
+          state['currentTurn'] = data['currentTurn'];
+          indicateTurn(state['currentTurn'], state['character']);
         } else if (type === 'winner') {
-          gameWon = true;
+          state['gameWon'] = true;
           updateBoard(cell, board);
           setResetButtonDisplay("block");
           alert("The winner is " + data['winner']);
-          handleReset(ws, character, token);
+          handleReset(ws, state['character'], token);
         } else if (type === 'reset') {
-          gameWon = false;
-          currentTurn = currentTurn === 'x' ? 'o' : 'x';
+          state['gameWon'] = false;
+          state['currentTurn'] = state['currentTurn'] === 'x' ? 'o' : 'x';
           updateBoard(cell, ['', '', '', '', '', '', '', '', '']);
-          if (data['from'] !== character) alert(data['from'] + " reset the game");
-          indicateTurn(currentTurn);
+          if (data['from'] !== state['character']) alert(data['from'] + " reset the game");
+          indicateTurn(state['currentTurn'], state['character']);
         }
       };
+    }
 
-      
-      function indicateTurn(currentTurn) {
-        if (currentTurn === character) {
-          turnIndicator.innerHTML = "It's your turn!";
-        } else {
-          turnIndicator.innerHTML = "It's " + currentTurn +"'s turn!";
-        }
+    function indicateTurn(currentTurn, character) {
+      let turnIndicator = document.getElementById("turns");
+
+      if (currentTurn === character) {
+        turnIndicator.innerHTML = "It's your turn!";
+      } else {
+        turnIndicator.innerHTML = "It's " + currentTurn +"'s turn!";
       }
     }
+
+    function setupConnection(ws, token, cell) {
+      let state = {
+                    character: undefined,
+                    currentTurn: '',
+                    gameWon: false
+                  };
+
+      ws.onopen = generateOpenFunction(ws, token);
+      setupClicks(cell, state, token, ws);
+      ws.onmessage = generateMessageFunction(state, cell, ws, token);      
+    }
+
 
     function handleReset(ws, from, token) {
       getResetButton().onclick = function () {

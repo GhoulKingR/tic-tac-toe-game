@@ -22,7 +22,7 @@
       for (let i = 0; i < 9; i++) {
         cell.item(i).addEventListener('click', function () {
           console.log(state);
-          if (state['currentTurn'] === state['character'] && !state['gameWon'] ) {
+          if (state['currentTurn'] === state['character'] && !state['gameWon'] && cell.item(i).innerHTML === "" ) {
             ws.send(JSON.stringify({ token, request: 'play', pos: i }));
           }
         });

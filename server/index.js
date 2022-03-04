@@ -13,7 +13,6 @@ wss.on('connection', function (ws) {
         {token, request, pos} = game,
         room = rooms[token];
         
-    console.log(room);
     if (request === 'add') {
       console.log('player added');
       

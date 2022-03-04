@@ -180,8 +180,10 @@
 <body>
   <center>
     <button id="create-game">Create Game</button><br />
-    <input id="token" type="text" value="" class="hidden"/>
-    <button onclick="copy()" class="hidden">Copy the Token</button>
+    <div class="copy-token-section">
+      <input id="token" type="text" value="" class="hidden"/>
+      <button onclick="copy()" class="hidden">Copy the Token</button>
+    </div>
     <p>OR</p>
     <form id="join-game">
       <input type="text" id="token-in" placeholder="Paste Token...">

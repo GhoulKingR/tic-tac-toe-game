@@ -15,3 +15,18 @@ table {
 .hidden {
   display: none;
 }
+
+#create-game {
+  background: linear-gradient(58deg, mediumspringgreen, palegreen);
+  border: none;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 28px;
+  padding-right: 28px;
+  border-radius: 6px;
+  font-weight: 900;
+  font-size: 13px;
+  color: white;
+  margin-bottom: 18px;
+}
+

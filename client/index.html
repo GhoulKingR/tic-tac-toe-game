@@ -55,7 +55,7 @@
           alert("The winner is " + data['winner']);
           handleReset(ws, character, token);
         } else if (type === 'reset') {
-          updateBoard(cell, ['', '', '', '', '', '', '']);
+          updateBoard(cell, ['', '', '', '', '', '', '', '', '']);
           if (data['from'] !== character) alert(data['from'] + " reset the game");
         }
       };

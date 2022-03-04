@@ -92,21 +92,21 @@
             
           setupHidden(hiddens, hiddens.length);
           setupConnection(ws, token, cell);
-        }
       }
+    }
         
-      function setupHidden(hiddens, len) {
-        for (let i = 0; i < len; i++) {
-          hiddens.item(0).classList.remove(['hidden']);
-        }
+    function setupHidden(hiddens, len) {
+      for (let i = 0; i < len; i++) {
+        hiddens.item(0).classList.remove(['hidden']);
       }
-        
-      function copy() {
-        let tokenDest = document.getElementById("token");
-        tokenDest.select();
-        document.execCommand('copy');
-      }
-    </script>
+    }
+      
+    function copy() {
+      let tokenDest = document.getElementById("token");
+      tokenDest.select();
+      document.execCommand('copy');
+    }
+  </script>
 </head>
 <body>
   <center>

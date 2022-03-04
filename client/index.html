@@ -56,8 +56,7 @@
           CreateGame = document.getElementById("create-game"),
           hiddens = document.getElementsByClassName("hidden"),
           cell = document.getElementsByClassName("cell"),
-          tokenDest = document.getElementById("token"),
-          token = document.getElementById("token-in").value;
+          tokenDest = document.getElementById("token");
 
       document.getElementById("token-in").onchange = function (e) {
         let value = e.target.value;
@@ -88,7 +87,8 @@
 
       document.getElementById("join-game").onsubmit = function (e) {
         e.preventDefault();
-        let ws = new WebSocket('ws://localhost:8181/');
+        let ws = new WebSocket('ws://localhost:8181/'),
+            token = document.getElementById("token-in").value;
             
           setupHidden(hiddens, hiddens.length);
           setupConnection(ws, token, cell);

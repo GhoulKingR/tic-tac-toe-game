@@ -13,7 +13,7 @@ wss.on('connection', function (ws) {
         {token, request, pos} = game,
         room = rooms[token];
         
-    if (request === 'reset') resetGame(room['ws_s'], game['from']);
+    if (request === 'reset') resetGame(room, game['from']);
     else if (request === 'add') addPlayer(room, ws);
     else if (request === 'play') playGame(room, pos);
     else {
@@ -25,7 +25,7 @@ wss.on('connection', function (ws) {
 function playGame(room, pos) {
   room['board'][pos] = room['turn'];
   room['turn'] = invert(room['turn']);
-  
+
   let message = JSON.stringify(
     !isWinner(room['board'])
       ? {
@@ -65,14 +65,16 @@ function addPlayer(room, ws) {
   ws.send(message)
 }
 
-function resetGame(ws_s, from) {
+function resetGame(room, from) {
   let message = JSON.stringify({
     type: 'reset',
     from: from,
   });
 
-  for (let i = 0; i < ws_s.length; i++) {
-    ws_s[i].send(message);
+  room['board'] = ['', '', '', '', '', '', '', '', ''];
+
+  for (let i = 0; i < room['ws_s'].length; i++) {
+    room['ws_s'][i].send(message);
   }
 }
 

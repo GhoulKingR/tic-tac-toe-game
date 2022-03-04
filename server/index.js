@@ -10,8 +10,8 @@ wss.on('connection', function (ws) {
   
   ws.on('message', function (play) {
     let game = JSON.parse(play.toString()),
-    {token, request, pos} = game,
-    room = rooms[token];
+        {token, request, pos} = game,
+        room = rooms[token];
 
     if (request === 'add') {
       console.log('player added');

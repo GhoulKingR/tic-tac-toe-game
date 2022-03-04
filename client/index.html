@@ -76,7 +76,7 @@
             let ws = new WebSocket('ws://localhost:8181/');
             
             CreateGame.innerHTML = 'Game created';
-            CreateGame.setAttribute("disabled", '');
+            disable(CreateGame);
 
             setupHidden(hiddens, hiddens.length);
             setupConnection(ws, token, cell);
@@ -92,7 +92,7 @@
           
           button.innerHTML = "Joined Game";
           disable(button);
-          
+
           setupHidden(hiddens, hiddens.length);
           setupConnection(ws, token, cell);
       }

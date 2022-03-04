@@ -8,7 +8,7 @@
   <title>Document</title>
   <script>
     function setupConnection(ws, token, cell) {
-      let character = '',
+      let character = undefined,
           currentTurn = '',
           gameWon = false,
           turnIndicator = document.getElementById("turns");
@@ -50,8 +50,8 @@
           indicateTurn(currentTurn);
         } else if (type === 'winner') {
           gameWon = true;
-          alert("The winner is " + data['winner']);
           updateBoard(cell, board);
+          alert("The winner is " + data['winner']);
         }
       };
 

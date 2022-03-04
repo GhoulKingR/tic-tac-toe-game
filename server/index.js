@@ -44,6 +44,8 @@ wss.on('connection', function (ws) {
           })
         )
       }
+    } else {
+      throw new Error("The request: " + request + " is not implemented");
     }
   });
 });

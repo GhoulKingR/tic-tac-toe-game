@@ -39,7 +39,7 @@
           let {board} = data;
 
           currentTurn = data['currentTurn'];
-          turnIndicator.innerHTML = "It is " + currentTurn + "'s turn";
+          indicateTurn(currentTurn);
           
           for (let i = 0; i < board.length; i++) {
             cell.item(i).innerHTML = board[i];
@@ -49,9 +49,18 @@
         } else if (type === 'added') {
           character = data['character'];
           currentTurn = data['currentTurn'];
-          turnIndicator.innerHTML = "It is " + currentTurn + "'s turn";
+          indicateTurn(currentTurn);
         }
       };
+
+      
+      function indicateTurn(currentTurn) {
+        if (currentTurn === character) {
+          turnIndicator.innerHTML = "It's your turn!";
+        } else {
+          turnIndicator.innerHTML = "It's " + currentTurn +"'s turn!";
+        }
+      }
     }
 
     window.onload = function () {

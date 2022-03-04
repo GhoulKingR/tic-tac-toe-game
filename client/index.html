@@ -60,15 +60,12 @@
           token = document.getElementById("token-in").value;
 
       document.getElementById("token-in").onchange = function (e) {
-        let value = e.target.value; 
-        console.log(value);
-        console.log(button.getAttribute("disabled"));
+        let value = e.target.value;
         if (value.trim().length > 0) {
           button.removeAttribute("disabled");
         } else {
           button.setAttribute("disabled", '');
         }
-        console.log(button.getAttribute("disabled"));
       };
 
       CreateGame.onclick = function () {

@@ -51,7 +51,12 @@
         } else if (type === 'winner') {
           gameWon = true;
           updateBoard(cell, board);
+          setResetButtonDisplay("block");
           alert("The winner is " + data['winner']);
+          handleReset(ws, character);
+        } else if (type === 'reset') {
+          updateBoard(cell, ['', '', '', '', '', '', '']);
+          alert(data['from'] + " reset the game");
         }
       };
 
@@ -62,6 +67,14 @@
         } else {
           turnIndicator.innerHTML = "It's " + currentTurn +"'s turn!";
         }
+      }
+    }
+
+    function handleReset(ws, from) {
+      getResetButton().onclick = function () {
+        ws.send(
+          JSON.stringify({ request: 'reset', from })
+        );
       }
     }
 
@@ -117,6 +130,14 @@
           setupConnection(ws, token, cell);
       }
     }
+
+    function getResetButton() {
+      return document.getElementById("reset");
+    }
+
+    function setResetButtonDisplay(text) {
+      getResetButton().style.display = text;
+    }
         
     function setupHidden(hiddens, len) {
       for (let i = 0; i < len; i++) {
@@ -167,6 +188,7 @@
       </tr>
     </table>
     <h1 id="turns"></h1>
+    <button id="reset" style="display: none">Reset</button>
   </center>
 </body>
 </html>

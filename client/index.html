@@ -61,9 +61,9 @@
       document.getElementById("token-in").onchange = function (e) {
         let value = e.target.value;
         if (value.trim().length > 0) {
-          button.removeAttribute("disabled");
+          enable(button);
         } else {
-          button.setAttribute("disabled", '');
+          disable(button);
         }
       };
 
@@ -89,7 +89,10 @@
         e.preventDefault();
         let ws = new WebSocket('ws://localhost:8181/'),
             token = document.getElementById("token-in").value;
-            
+          
+          button.innerHTML = "Joined Game";
+          disable(button);
+          
           setupHidden(hiddens, hiddens.length);
           setupConnection(ws, token, cell);
       }
@@ -99,6 +102,14 @@
       for (let i = 0; i < len; i++) {
         hiddens.item(0).classList.remove(['hidden']);
       }
+    }
+
+    function disable(button) {
+      button.setAttribute("disabled", "");
+    }
+
+    function enable(button) {
+      button.removeAttribute("disabled");
     }
       
     function copy() {

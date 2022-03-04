@@ -9,7 +9,8 @@
   <script>
     function setupConnection(ws, token, cell) {
       let character = '',
-          currentTurn = '';
+          currentTurn = '',
+          turnIndicator = document.getElementById("turns");
 
       ws.onopen = function () {
         ws.send(
@@ -38,6 +39,7 @@
           let {board} = data;
 
           currentTurn = data['currentTurn'];
+          turnIndicator.innerHTML = "It is " + currentTurn + "'s turn";
           
           for (let i = 0; i < board.length; i++) {
             cell.item(i).innerHTML = board[i];
@@ -47,6 +49,7 @@
         } else if (type === 'added') {
           character = data['character'];
           currentTurn = data['currentTurn'];
+          turnIndicator.innerHTML = "It is " + currentTurn + "'s turn";
         }
       };
     }
@@ -146,6 +149,7 @@
         <td class="cell"></td>
       </tr>
     </table>
+    <h1 id="turns"></h1>
   </center>
 </body>
 </html>

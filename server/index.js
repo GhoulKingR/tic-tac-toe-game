@@ -33,15 +33,23 @@ wss.on('connection', function (ws) {
       }
     } else if (request === 'play') {
       room['board'][pos] = room['turn'];
-      room['turn'] = room['turn'] === 'x' ? 'o' : 'x';
+      room['turn'] = invert(room['turn']);
 
       for (let i = 0; i < room['ws_s'].length; i++) {
         room['ws_s'][i].send(
-          JSON.stringify({
-            type: 'play',
-            board: room['board'],
-            currentTurn: room['turn']
-          })
+          JSON.stringify(
+            !isWinner(room['board'])
+              ? {
+                  type: 'play',
+                  board: room['board'],
+                  currentTurn: room['turn']
+                }
+              : {
+                  type: 'winner',
+                  board: room['board'],
+                  winner: invert(room['turn'])
+                }
+            )
         )
       }
     } else {
@@ -49,6 +57,36 @@ wss.on('connection', function (ws) {
     }
   });
 });
+
+function invert(turn) {
+  return turn === 'x' ? 'o' : 'x';
+}
+
+function isWinner(board) {
+  // horizontals
+  for (let i = 0; i < 3; i++) {
+    if (board[i + 0] === board[i + 1] && board[i + 1] === board[i + 2] && board[i] !== '') {
+      return true;
+    }
+  }
+  // verticals 
+  for (let i = 0; i < 3; i++) {
+    if (board[i] === board[i + 3] && board[i + 3] === board[i + 6] && board[i] !== '') {
+      return true;
+    }
+  }
+  // diagonals
+  if (
+    ((board[0] === board[4] && board[4] === board[8])
+    || (board[2] === board[4] && board[4] === board[6]))
+    && board[4] !== ''
+  ) {
+    return true;
+  }
+
+
+  return false;
+}
 
 app.use(cors());
 

@@ -53,10 +53,10 @@
           updateBoard(cell, board);
           setResetButtonDisplay("block");
           alert("The winner is " + data['winner']);
-          handleReset(ws, character);
+          handleReset(ws, character, token);
         } else if (type === 'reset') {
           updateBoard(cell, ['', '', '', '', '', '', '']);
-          alert(data['from'] + " reset the game");
+          if (data['from'] !== character) alert(data['from'] + " reset the game");
         }
       };
 
@@ -70,10 +70,10 @@
       }
     }
 
-    function handleReset(ws, from) {
+    function handleReset(ws, from, token) {
       getResetButton().onclick = function () {
         ws.send(
-          JSON.stringify({ request: 'reset', from })
+          JSON.stringify({ request: 'reset', token, from })
         );
       }
     }

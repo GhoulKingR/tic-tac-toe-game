@@ -59,6 +59,7 @@
           updateBoard(cell, ['', '', '', '', '', '', '', '', '']);
           if (data['from'] !== state['character']) alert(data['from'] + " reset the game");
           indicateTurn(state['currentTurn'], state['character']);
+          setResetButtonDisplay("none");
         }
       };
     }

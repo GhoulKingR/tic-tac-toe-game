@@ -36,7 +36,7 @@ table {
   justify-content: center;
 }
 
-#token {
+#token, #join-game input {
   height: 32px;
   border-top-left-radius: 6px;
   border-bottom-left-radius: 6px;
@@ -45,7 +45,7 @@ table {
   padding-left: 7px;
 }
 
-.copy-token-section button {
+.copy-token-section button, #join-game button {
   background: mediumspringgreen;
   border: none;
   color: white;
@@ -59,4 +59,13 @@ table {
 p {
   font-size: 17px;
   font-weight: 600;
+}
+
+#join-game {
+  display: flex;
+  justify-content: center;
+}
+
+#join-game button:disabled, .copy-token-section button:disabled {
+  opacity: 0.2;
 }

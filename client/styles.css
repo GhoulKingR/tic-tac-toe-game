@@ -66,6 +66,6 @@ p {
   justify-content: center;
 }
 
-#join-game button:disabled, .copy-token-section button:disabled {
+#join-game button:disabled, #create-game:disabled {
   opacity: 0.2;
 }

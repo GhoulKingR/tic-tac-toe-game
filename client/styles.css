@@ -21,7 +21,7 @@ table {
   display: none;
 }
 
-#create-game {
+#create-game, #reset {
   background: linear-gradient(58deg, mediumspringgreen, palegreen);
   border: none;
   padding-top: 10px;

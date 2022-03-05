@@ -7,9 +7,9 @@
 }
 
 table {
-  background-color: black;
   margin: 27px;
   opacity: 0.5;
+  background: linear-gradient(58deg, mediumspringgreen, palegreen);
 }
 
 .hidden {

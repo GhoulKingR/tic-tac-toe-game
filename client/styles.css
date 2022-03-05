@@ -30,3 +30,28 @@ table {
   margin-bottom: 18px;
 }
 
+.copy-token-section {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+#token {
+  height: 32px;
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+  border: 2px solid mediumspringgreen;
+  border-right: none;
+  padding-left: 7px;
+}
+
+.copy-token-section button {
+  background: mediumspringgreen;
+  border: none;
+  color: white;
+  padding-left: 17px;
+  padding-right: 17px;
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+  font-weight: 800;
+}

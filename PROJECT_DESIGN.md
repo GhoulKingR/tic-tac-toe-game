@@ -44,7 +44,8 @@ When the user clicks on the **Create a game** button, the following happens:
 8. the backend saves the game creator as player 1 (WebSocket instance).
 9. the frontend disables game turn until player 2 has joined.
 
-> **Note 1**: the token will be sent every time the frontend communicates with the backend
+> **Note 1**: the token will be sent every time the frontend communicates with the backend.
+>
 > **Note 2**: the board and turn data is like a snapshot of the current state of the game board. They allow the players to resume to the current saved state of the game board.  
 
 ## Sending a text message

@@ -41,7 +41,7 @@ The `game` page allows the players to make a move within the application. This p
 * A big text saying "Make a move ;)".
 * A table to represent the game board.
 
-> **Note**: I (Chigozie) will be taking this section. I have a codebase that already implements most of the properties of this action.
+> **Note**: We can implement this feature by remodelling the code in the [previous repo](./previous%20repo/) folder.
 
 ## Starting a new round
 

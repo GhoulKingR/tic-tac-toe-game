@@ -3,17 +3,20 @@
 const player = {
   playGame: Fun([], UInt),
   receivePlay: Fun([UInt], Null),
-}
+};
+
+const playerA = {
+  ...player,
+  bJoined: Fun([], Null),
+};
+
+const playerB = {
+  ...player,
+};
 
 export const main = Reach.App(() => {
-  const A = Participant('Alice', {
-    // Specify Alice's interact interface here
-    ...player,
-  });
-  const B = Participant('Bob', {
-    // Specify Bob's interact interface here
-    ...player,
-  });
+  const A = Participant('Alice', playerA);
+  const B = Participant('Bob', playerB);
   init();
 
   // The first one to publish deploys the contract
@@ -24,14 +27,8 @@ export const main = Reach.App(() => {
   commit();
 
   A.only(() => {
-    const pos = declassify( interact.playGame() )
+    interact.bJoined();
   });
-  A.publish(pos);
-  commit();
-
-  B.only(() => {
-    interact.receivePlay( pos );
-  })
   A.publish();
   commit();
 

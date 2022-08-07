@@ -15,7 +15,6 @@ const actionsEnum = {
   x3_y1: 6, x3_y2: 7,  x3_y3: 8,
   reset: 9, joined: 10
 }
-const intToOutcome = ['You win!', 'Draw!', 'Player 2 wins!'];
 
 function App () {
   const [view, setView] = useState('create-join');
@@ -29,36 +28,43 @@ function App () {
   </>
 }
 
-function JoinGame (e, acc, token, setView) {
-  e.preventDefault();
-  const ctc = acc.contract(backend, JSON.parse(token));
-  backend.Bob(ctc, {
-    // Bob's interface
+function player(emitter) {
+  return {
     playGame () {
       return new Promise((resolve) => {
-        deployerEmitter.on('boardClick', resolve);
+        emitter.on('boardClick', data => {
+          alert(data);
+          resolve(data);
+        });
       });
     },
     receivePlay (pos) {
-      deployerEmitter.emit('playReceive', pos);
+      emitter.emit('playReceive', pos);
     }
-  });
+  }
+}
+
+const playerA = {
+  ...player(deployerEmitter),
+  bJoined () {
+    alert('Player 2 has Joined the game')
+  }
+};
+
+const playerB = {
+  ...player(attacherEmitter),
+};
+
+function JoinGame (e, acc, token, setView) {
+  e.preventDefault();
+  const ctc = acc.contract(backend, JSON.parse(token));
+  backend.Bob(ctc, playerB);
   setView('attacher-board');
 }
 
 async function CreateGame (acc, setToken) {
   const ctc = acc.contract(backend);
-  backend.Alice(ctc, {
-    // Alice's interface
-    playGame () {
-      return new Promise((resolve) => {
-        deployerEmitter.on('boardClick', () => resolve());
-      });
-    },
-    receivePlay (pos) {
-      deployerEmitter.emit('playReceive', pos);
-    }
-  });
+  backend.Alice(ctc, playerA);
   const details = JSON.stringify(await ctc.getInfo(), null, 2);
   setToken( details );
 }

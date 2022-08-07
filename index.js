@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { EventEmitter } from 'events';
+import './index.css';
 import ReactDOM from 'react-dom';
-import * as backend from './build/index.main.mjs';
 import CreateJoin from './components/CreateJoin.js';
-import { loadStdlib, ALGO_MyAlgoConnect as MyAlgoConnect } from '@reach-sh/stdlib';
-const reach = loadStdlib(process.env);
-reach.setWalletFallback(reach.walletFallback({
-  providerEnv: 'TestNet', MyAlgoConnect
-}));
+import DeployerBoard from './components/DeployerBoard.js';
+import AttacherBoard from './components/AttacherBoard.js';
+import * as backend from './build/index.main.mjs';
+
+const deployerEmitter = new EventEmitter();
+const attacherEmitter = new EventEmitter();
 
 const actionsEnum = {
   x1_y1: 0, x1_y2: 1,  x1_y3: 2,
@@ -15,22 +17,51 @@ const actionsEnum = {
   reset: 9, joined: 10
 }
 const intToOutcome = ['You win!', 'Draw!', 'Player 2 wins!'];
-const {standardUnit} = reach;
-const defaults = {defaultFundAmt: '10', defaultWager: '3', standardUnit};
 
 function App () {
-  const [acc, setAcc] = useState(undefined);
   const [view, setView] = useState('create-join');
-
-  useEffect(() => {
-    reach.getDefaultAccount()
-      .then(setAcc)
-  }, []);
 
   return <>
     {view === 'create-join'
-      && <CreateJoin acc={acc}/>}
+      ? <CreateJoin setView={setView} JoinGame={JoinGame} CreateGame={CreateGame}/>
+      : view === 'deployer-board'
+        ? <DeployerBoard emitter={deployerEmitter} />
+        : <AttacherBoard emitter={attacherEmitter} />}
   </>
+}
+
+function JoinGame (e, acc, token, setView) {
+  e.preventDefault();
+  const ctc = acc.contract(backend, JSON.parse(token));
+  backend.Bob(ctc, {
+    // Bob's interface
+    playGame () {
+      return new Promise((resolve) => {
+        deployerEmitter.on('boardClick', resolve);
+      });
+    },
+    receivePlay (pos) {
+      deployerEmitter.emit('playReceive', pos);
+    }
+  });
+  setView('attacher-board');
+}
+
+async function CreateGame (acc, setToken) {
+  const ctc = acc.contract(backend);
+  backend.Alice(ctc, {
+    // Alice's interface
+    playGame () {
+      return new Promise((resolve) => {
+        deployerEmitter.on('boardClick', () => resolve());
+      });
+    },
+    receivePlay (pos) {
+      deployerEmitter.emit('playReceive', pos);
+    }
+  });
+  const details = JSON.stringify(await ctc.getInfo(), null, 2);
+  setToken( details );
 }
 
 ReactDOM.render(

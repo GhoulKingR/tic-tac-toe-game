@@ -47,6 +47,7 @@ function player(emitter) {
 const playerA = {
   ...player(deployerEmitter),
   bJoined () {
+    deployerEmitter.emit('unlockBoard');
     alert('Player 2 has Joined the game')
   }
 };

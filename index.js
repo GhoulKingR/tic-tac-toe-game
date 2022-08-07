@@ -3,8 +3,7 @@ import { EventEmitter } from 'events';
 import './index.css';
 import ReactDOM from 'react-dom';
 import CreateJoin from './components/CreateJoin.js';
-import DeployerBoard from './components/DeployerBoard.js';
-import AttacherBoard from './components/AttacherBoard.js';
+import Board from './components/Board.js';
 import * as backend from './build/index.main.mjs';
 
 const deployerEmitter = new EventEmitter();
@@ -25,8 +24,8 @@ function App () {
     {view === 'create-join'
       ? <CreateJoin setView={setView} JoinGame={JoinGame} CreateGame={CreateGame}/>
       : view === 'deployer-board'
-        ? <DeployerBoard emitter={deployerEmitter} />
-        : <AttacherBoard emitter={attacherEmitter} />}
+        ? <Board emitter={deployerEmitter} />
+        : <Board emitter={attacherEmitter} />}
   </>
 }
 

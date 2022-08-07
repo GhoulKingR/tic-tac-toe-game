@@ -9,10 +9,10 @@ reach.setWalletFallback(reach.walletFallback({
 }));
 
 const actionsEnum = {
-  x1_y1: 0, x1_y2: 1, x1_y3: 2,
-  x2_y1: 3, x2_y2: 4, x2_y3: 5,
-  x3_y1: 6, x3_y2: 7, x3_y3: 8,
-  reset: 9
+  x1_y1: 0, x1_y2: 1,  x1_y3: 2,
+  x2_y1: 3, x2_y2: 4,  x2_y3: 5,
+  x3_y1: 6, x3_y2: 7,  x3_y3: 8,
+  reset: 9, joined: 10
 }
 const intToOutcome = ['You win!', 'Draw!', 'Player 2 wins!'];
 const {standardUnit} = reach;

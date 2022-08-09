@@ -11,9 +11,15 @@ function DeployerBoard ({ emitter }) {
       newBoard[pos] = 'o';
       setBoard(newBoard);
     });
+  }, [board]);
+
+  useEffect(() => {
     emitter.on('unlockBoard', () => {
       setUnlocked(true);
-    })
+    });
+    emitter.on('lockBoard', () => {
+      setUnlocked(false);
+    });
   }, []);
 
   return <>

@@ -31,9 +31,10 @@ function App () {
 function player(emitter) {
   return {
     playGame () {
+      emitter.emit('unlockBoard');
       return new Promise((resolve) => {
         emitter.on('boardClick', data => {
-          alert(data);
+          emitter.emit('lockBoard');
           resolve(data);
         });
       });
@@ -47,7 +48,6 @@ function player(emitter) {
 const playerA = {
   ...player(deployerEmitter),
   bJoined () {
-    deployerEmitter.emit('unlockBoard');
     alert('Player 2 has Joined the game')
   }
 };

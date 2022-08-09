@@ -32,6 +32,36 @@ export const main = Reach.App(() => {
   A.publish();
   commit();
 
+  const aPlays = (fun, n) => {
+    A.only(() => {
+      const pos = declassify ( interact.playGame() );
+    });
+    A.publish(pos);
+    commit();
+    B.only(() => {
+      interact.receivePlay( pos );
+    });
+    B.publish();
+    commit();
+
+    
+    B.only(() => {
+      const pos2 = declassify ( interact.playGame() );
+    });
+    B.publish(pos2);
+    commit();
+    A.only(() => {
+      interact.receivePlay( pos2 );
+    });
+    A.publish();
+    commit();
+
+    if (n > 0) return fun(fun, 9);
+    else return null;
+  }
+
+  aPlays(aPlays, 9);
+
   // write your program here
   exit();
 });

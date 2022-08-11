@@ -1,17 +1,14 @@
 'reach 0.1';
 
-const player = {
+const playerA = {
   playGame: Fun([], UInt),
   receivePlay: Fun([UInt], Null),
-};
-
-const playerA = {
-  ...player,
   bJoined: Fun([], Null),
 };
 
 const playerB = {
-  ...player,
+  playGame: Fun([], UInt),
+  receivePlay: Fun([UInt], Null),
 };
 
 export const main = Reach.App(() => {
@@ -24,44 +21,50 @@ export const main = Reach.App(() => {
   commit();
   // The second one to publish always attaches
   B.publish();
-  commit();
-
+  
   A.only(() => {
     interact.bJoined();
   });
-  A.publish();
-  commit();
-
-  const aPlays = (fun, n) => {
-    A.only(() => {
-      const pos = declassify ( interact.playGame() );
-    });
-    A.publish(pos);
+  
+  var turns = 0;
+  invariant( balance() == 0);
+  while (turns < 9) {
     commit();
-    B.only(() => {
-      interact.receivePlay( pos );
-    });
     B.publish();
-    commit();
 
-    
-    B.only(() => {
-      const pos2 = declassify ( interact.playGame() );
-    });
-    B.publish(pos2);
-    commit();
-    A.only(() => {
-      interact.receivePlay( pos2 );
-    });
-    A.publish();
-    commit();
+    if (turns % 2 == 1) {
+      commit();
 
-    if (n > 0) return fun(fun, 9);
-    else return null;
+      B.only(() => {
+        const pos = declassify ( interact.playGame() );
+      });
+      B.publish(pos);
+
+      A.only(() => {
+        interact.receivePlay( pos % 10 );
+      });
+      
+      const move = (pos - (pos % 10)) / 10; // select first digit
+      turns = turns + move;
+      continue;
+    } else {
+      commit ();
+
+      A.only(() => {
+        const pos = declassify ( interact.playGame() );
+      });
+      A.publish(pos);
+      B.only(() => {
+        interact.receivePlay( pos % 10 );
+      });
+
+      const move = (pos - (pos % 10)) / 10; // select first digit
+      turns = turns + move;
+      continue;
+    }
   }
 
-  aPlays(aPlays, 9);
-
   // write your program here
+  commit();
   exit();
 });

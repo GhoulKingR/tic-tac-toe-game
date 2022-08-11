@@ -1,16 +1,19 @@
 import { useEffect, useState } from "react";
 
-function DeployerBoard ({ emitter }) {
+function Board ({ emitter }) {
 
-  const [board, setBoard] = useState([' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']);
   const [unlocked, setUnlocked] = useState(false);
+  const [board, setBoard] = useState([' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']);
 
   useEffect(() => {
-    emitter.on('playReceive', (pos) => {
+    const playReceive = (pos) => {
       const newBoard = [...board];
       newBoard[pos] = 'o';
       setBoard(newBoard);
-    });
+    };
+
+    emitter.on('playReceive', playReceive);
+    return () => emitter.off('playReceive', playReceive);
   }, [board]);
 
   useEffect(() => {
@@ -23,6 +26,7 @@ function DeployerBoard ({ emitter }) {
   }, []);
 
   return <>
+    <div>{ unlocked ? "It's Your turn" : "Waiting..." }</div>
     <table>
       <tbody>
         <tr>
@@ -49,7 +53,7 @@ function boardClick (emitter, board, setBoard, pos) {
   const newBoard = [...board];
   newBoard[pos] = 'x';
   setBoard(newBoard);
-  emitter.emit('boardClick', pos);
+  emitter.emit('boardClick', pos, newBoard);
 }
 
-export default DeployerBoard;
+export default Board;

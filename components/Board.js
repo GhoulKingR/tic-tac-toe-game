@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { boardClick } from '../libs/Board.lib.js'
 
 function Board ({ emitter, setView, board, setBoard }) {
 
@@ -49,13 +50,6 @@ function Board ({ emitter, setView, board, setBoard }) {
       </tbody>
     </table>
   </>
-}
-
-function boardClick (emitter, board, setBoard, pos) {
-  const newBoard = [...board];
-  newBoard[pos] = 'x';
-  setBoard(newBoard);
-  emitter.emit('boardClick', pos, newBoard);
 }
 
 export default Board;

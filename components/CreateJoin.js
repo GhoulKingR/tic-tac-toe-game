@@ -1,22 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { loadStdlib, ALGO_MyAlgoConnect as MyAlgoConnect } from '@reach-sh/stdlib';
 
-const reach = loadStdlib(process.env);
-reach.setWalletFallback(reach.walletFallback({
-  providerEnv: 'TestNet', MyAlgoConnect
-}));
-
-function CreateJoin ({ setView, CreateGame, JoinGame }) {
-  const [acc, setAcc] = useState(undefined);
+function CreateJoin ({ setView, CreateGame, JoinGame, acc }) {
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const joinGameInput = useRef(null);
   const tokenInput = useRef(null);
   const [token, setToken] = useState('');
-
-  useEffect(() => {
-    reach.getDefaultAccount()
-      .then(setAcc)
-  }, []);
 
   return <>
     <button onClick={() => CreateGame(acc, setToken)}>Create Game</button><br />

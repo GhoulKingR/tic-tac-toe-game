@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
-import { boardClick } from '../libs/Board.lib.js'
+import { useEffect, useState, useRef } from "react";
+import { boardClick, copy } from '../libs/Board.lib.js'
 import GameBoard from "./GameBoard.js";
 
-function Board ({ emitter, setView, board, setBoard }) {
+function Board ({ emitter, token, setView, board, setBoard }) {
 
   const [unlocked, setUnlocked] = useState(false);
+  const [guestJoined, setGuestJoined] = useState(false);
+  const tokenInput = useRef(null);
 
   useEffect(() => {
     const playReceive = (pos) => {
@@ -27,11 +29,24 @@ function Board ({ emitter, setView, board, setBoard }) {
     emitter.on('game-over', () => {
       setView('game-over');
     });
+    emitter.on('player-2-joined', () => {
+      alert('Guest has joined');
+      setGuestJoined(true);
+    })
   }, []);
 
   return <>
     <div>{ unlocked ? "It's Your turn" : "Waiting..." }</div>
     <GameBoard boardClick={(n) => unlocked && boardClick(emitter, board, setBoard, n)} board={board}/>
+    {
+      token.trim().length !== 0 && guestJoined
+      ? <div>
+        <p>Use this token to invite a player</p>
+        <input type="text" readOnly={true} value={token} ref={tokenInput} /><br />
+        <button onClick={() => copy(tokenInput)} disabled={token.trim().length === 0} >Copy the Token</button>
+      </div> 
+      : <></>
+    }
   </>
 }
 

@@ -10,8 +10,6 @@ function ConnectWallet({ setAcc, openCreateJoin }) {
   return <>
     <div>
       <h1>Tic-Tac-Toe</h1>
-
-      <h2>Introduction</h2>
       <p>
         This tic-tac-toe project relies on the algorand blockchain network
         to connect players, and achieve decentralization. That said, all
@@ -26,21 +24,20 @@ function ConnectWallet({ setAcc, openCreateJoin }) {
       <h2>Prerequisites</h2>
       <p>
         To run this app, you need the following:
-        <ul>
-          <li>an algorand wallet</li>
-          <li>testnet tokens</li>
-        </ul>
-
-        <i>
-          <b>Note:</b> Use a browser that is logged in to your algorand wallet.
-        </i>
       </p>
+      <ul>
+        <li><a href="https://wallet.myalgo.com/access">an algorand wallet</a></li>
+        <li><a href="https://bank.testnet.algorand.network/">testnet tokens</a></li>
+      </ul>
+
 
       <h2>Getting started</h2>
       <p>
         If you have safisfied the requirement, click the button below to connect
         your wallet and move to the next page.
       </p>
+
+      <i><b>Note:</b> Make sure to use the browser that is logged in to your algorand wallet.</i>
     </div>
     <button onClick={() => {
       reach.getDefaultAccount()
@@ -53,17 +50,3 @@ function ConnectWallet({ setAcc, openCreateJoin }) {
 }
 
 export default ConnectWallet;
-
-/**
- * OUTLINE
- * 
- * Introduction
- * - Describes this project
- * 
- * Prerequisites
- * - Lists the tools you need to run the project without problems
- * 
- * Getting started.
- * - Describes the next action to play the game
- * 
- */

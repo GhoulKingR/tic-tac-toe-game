@@ -1,23 +1,46 @@
 import React, { useRef, useState } from 'react';
-import { CreateGame, JoinGame, copy } from '../libs/CreateJoin.lib.js'
+import { CreateGame, JoinGame } from '../libs/CreateJoin.lib.js'
 
-function CreateJoin ({ setView, setEmitter, acc }) {
+function CreateJoin ({ setView, setToken, setEmitter, acc }) {
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const joinGameInput = useRef(null);
-  const tokenInput = useRef(null);
-  const [token, setToken] = useState('');
 
   return <>
-    <button onClick={() => CreateGame(acc, setToken, setEmitter)}>Create Game</button><br />
-    <div>
-      <input type="text" readOnly={true} value={token} ref={tokenInput} /><br />
-      <button onClick={() => copy(tokenInput, setView)} disabled={token.trim().length === 0} >Copy the Token</button>
-    </div>
+    <button onClick={() => CreateGame(acc, setToken, setEmitter, setView)}>Create a game space</button><br />
     <p>OR</p>
     <form onSubmit={(e) => JoinGame(e, acc, joinGameInput.current.value, setView, setEmitter)}>
       <input type="text" onChange={(e) => setButtonDisabled(e.currentTarget.value.trim().length === 0)} ref={joinGameInput} placeholder="Paste Token..." />
-      <button type="submit" disabled={buttonDisabled}> Join Game </button>
+      <button type="submit" disabled={buttonDisabled}>Join a game space</button>
     </form>
+
+    <div>
+      <h2>How to play</h2>
+      <p>
+        This game uses tokens to connect players together. When you create a
+        a game space, this app generates a token. This token allows a player
+        to join your game and play against you.  
+      </p>
+
+      <h2>Budget</h2>
+      <p>
+        With decentralization comes operation costs. The following table shows
+        the fees that each player needs to pay to play the game without problems.
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <td>Host (player 1)</td>
+            <td>Guest (player 2)</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>0.1</td>
+            <td>0.1</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </>
 }
 

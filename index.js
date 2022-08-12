@@ -11,12 +11,13 @@ function App () {
   const [view, setView] = useState('connect-wallet');
   const [acc, setAcc] = useState(undefined);
   const [emitter, setEmitter] = useState(null);
+  const [token, setToken] = useState('');
   const [board, setBoard] = useState([' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']);
 
   return <>
     {
-      view === 'create-join' ? <CreateJoin acc={acc} setView={setView} setEmitter={setEmitter} />
-      : view === 'board' ? <Board board={board} setBoard={setBoard} emitter={emitter} setView={setView} />
+      view === 'create-join' ? <CreateJoin acc={acc} setToken={setToken} setView={setView} setEmitter={setEmitter} />
+      : view === 'board' ? <Board board={board} token={token} setBoard={setBoard} emitter={emitter} setView={setView} />
       : view === 'game-over' ? <GameOver board={board} xWon={isWinner(board, 'x')} oWon={isWinner(board, 'o')} /> 
       : <ConnectWallet setAcc={setAcc} openCreateJoin={() => setView('create-join')} />
     }

@@ -39,25 +39,19 @@ export function JoinGame (e, acc, token, setView, setEmitter) {
   setView('board');
 }
 
-export async function CreateGame (acc, setToken, setEmitter) {
+export async function CreateGame (acc, setToken, setEmitter, setView) {
   const emitter = new EventEmitter()
   
   const ctc = acc.contract(backend);
   backend.Alice(ctc, {
     ...player(emitter),
     bJoined () {
-      alert('Player 2 has Joined the game')
+      emitter.emit('player-2-joined');
     }
   });
   const details = JSON.stringify(await ctc.getInfo(), null, 2);
 
   setToken( details );
   setEmitter( emitter );
-}
-
-export function copy(tokenInput, setView) {
-  let tokenDest = tokenInput.current;
-  tokenDest.select();
-  document.execCommand('copy');
   setView('board');
 }

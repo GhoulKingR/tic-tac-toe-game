@@ -13,6 +13,7 @@ function GameOver ({ xWon, oWon, board }) {
       This game has ended. To play again, <a onClick={() => document.location.assign(document.location)}>
       restart this app</a>, create a new game, and share the token with a friend.
     </p>
+    <h3>Board:</h3>
     <GameBoard board={board} boardClick={() => null} />
   </>
 }

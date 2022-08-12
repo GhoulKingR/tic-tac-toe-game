@@ -1,4 +1,6 @@
-function GameOver ({ xWon, oWon }) {
+import GameBoard from "./GameBoard";
+
+function GameOver ({ xWon, oWon, board }) {
   return <>
     <h1>
       {
@@ -11,6 +13,7 @@ function GameOver ({ xWon, oWon }) {
       This game has ended. To play again, <a onClick={() => document.location.assign(document.location)}>
       restart this app</a>, create a new game, and share the token with a friend.
     </p>
+    <GameBoard board={board} boardClick={() => null} />
   </>
 }
 

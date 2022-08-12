@@ -15,10 +15,10 @@ function App () {
 
   return <>
     {
-    view === 'create-join' ? <CreateJoin acc={acc} setView={setView} setEmitter={setEmitter} />
-    : view === 'board' ? <Board board={board} setBoard={setBoard} emitter={emitter} setView={setView} />
-    : view === 'game-over' ? <GameOver board={board} xWon={isWinner(board, 'x')} oWon={isWinner(board, 'o')} /> 
-    : <ConnectWallet setAcc={setAcc} openCreateJoin={() => setView('create-join')} />
+      view === 'create-join' ? <CreateJoin acc={acc} setView={setView} setEmitter={setEmitter} />
+      : view === 'board' ? <Board board={board} setBoard={setBoard} emitter={emitter} setView={setView} />
+      : view === 'game-over' ? <GameOver board={board} xWon={isWinner(board, 'x')} oWon={isWinner(board, 'o')} /> 
+      : <ConnectWallet setAcc={setAcc} openCreateJoin={() => setView('create-join')} />
     }
   </>
 }

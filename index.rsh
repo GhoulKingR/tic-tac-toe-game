@@ -1,14 +1,18 @@
 'reach 0.1';
 
-const playerA = {
+const player = {
   playGame: Fun([], UInt),
   receivePlay: Fun([UInt], Null),
+  gameOver: Fun([UInt], Null),
+};
+
+const playerA = {
+  ...player,
   bJoined: Fun([], Null),
 };
 
 const playerB = {
-  playGame: Fun([], UInt),
-  receivePlay: Fun([UInt], Null),
+  ...player,
 };
 
 export const main = Reach.App(() => {
@@ -63,8 +67,20 @@ export const main = Reach.App(() => {
       continue;
     }
   }
+  commit();
+  
+  A.only(() => {
+    interact.gameOver(turns);
+  });
+  A.publish();
+  commit();
+
+  B.only(() => {
+    interact.gameOver(turns);
+  });
+  B.publish();
+  commit();
 
   // write your program here
-  commit();
   exit();
 });

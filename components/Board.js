@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 
-function Board ({ emitter }) {
+function Board ({ emitter, setView, board, setBoard }) {
 
   const [unlocked, setUnlocked] = useState(false);
-  const [board, setBoard] = useState([' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']);
 
   useEffect(() => {
     const playReceive = (pos) => {
@@ -22,6 +21,9 @@ function Board ({ emitter }) {
     });
     emitter.on('lockBoard', () => {
       setUnlocked(false);
+    });
+    emitter.on('game-over', () => {
+      setView('game-over');
     });
   }, []);
 

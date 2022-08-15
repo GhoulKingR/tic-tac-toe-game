@@ -1,6 +1,6 @@
 
 function GameBoard ({ boardClick, board }) {
-  return <table>
+  return <table className='container'>
     <tbody>
       <tr>
         <td className="cell" onClick={() => boardClick(0)}>{ board[0] }</td>

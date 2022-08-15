@@ -8,16 +8,22 @@ reach.setWalletFallback(reach.walletFallback({
 
 function ConnectWallet({ setAcc, openCreateJoin }) {
   return <>
-    <div>
+    <div className='container'>
       <h1>Tic-Tac-Toe</h1>
       <p>
         This tic-tac-toe project relies on the algorand blockchain network
-        to connect players, and achieve decentralization. That said, all
-        operations require a fee that its must pay. Fortunately, This app
-        runs on the Algorand testnet.
-        
+        to connect players, and achieve decentralization. 
+      </p>
+      <p>
+        That said, alloperations require a fee that its must pay. Fortunately, 
+        This app runs on the Algorand testnet.
+      </p>
+      <p>
         Algorand testnet allows you to freely acquire tokens for operating
-        applications in the testnet environment. The testnet saves operation
+        applications in the testnet environment. 
+      </p>
+      <p>  
+        The testnet saves operation
         costs, but isn't ideal for production for several reasons.
       </p>
 
@@ -25,27 +31,30 @@ function ConnectWallet({ setAcc, openCreateJoin }) {
       <p>
         To run this app, you need the following:
       </p>
-      <ul>
+
+      <ul display = 'inline-block'>
         <li><a href="https://wallet.myalgo.com/access">an algorand wallet</a></li>
         <li><a href="https://bank.testnet.algorand.network/">testnet tokens</a></li>
       </ul>
-
 
       <h2>Getting started</h2>
       <p>
         If you have safisfied the requirement, click the button below to connect
         your wallet and move to the next page.
       </p>
-
+      <p>
       <i><b>Note:</b> Make sure to use the browser that is logged in to your algorand wallet.</i>
+      </p>
     </div>
+    <div className='container'>
     <button onClick={() => {
       reach.getDefaultAccount()
         .then(setAcc)
         .then(() => openCreateJoin());
-    }}>
+    }} align = 'center'>
       Connect wallet
     </button>
+    </div>
   </>
 }
 

@@ -7,11 +7,11 @@ function CreateJoin ({ setView, setToken, setEmitter, acc }) {
 
   return <>
     <div className='container'>
-    <button onClick={() => CreateGame(acc, setToken, setEmitter, setView)}>Create a game space</button>
+    <button class= 'button' onClick={() => CreateGame(acc, setToken, setEmitter, setView)}>Create a game space</button>
     <p>or</p>
     <form onSubmit={(e) => JoinGame(e, acc, joinGameInput.current.value, setView, setEmitter)}>
       <input type="text" onChange={(e) => setButtonDisabled(e.currentTarget.value.trim().length === 0)} ref={joinGameInput} placeholder="Paste Token..." />
-      <button type="submit" disabled={buttonDisabled}>Join a game space</button>
+      <button class= 'button' type="submit" disabled={buttonDisabled}>Join a game space</button>
     </form>
 
       <h2>How to play</h2>

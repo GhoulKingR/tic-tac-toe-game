@@ -47,7 +47,7 @@ function ConnectWallet({ setAcc, openCreateJoin }) {
       </p>
     </div>
     <div className='container'>
-    <button onClick={() => {
+    <button class= 'button' onClick={() => {
       reach.getDefaultAccount()
         .then(setAcc)
         .then(() => openCreateJoin());

@@ -36,14 +36,14 @@ function Board ({ emitter, token, setView, board, setBoard }) {
   }, []);
 
   return <>
-    <div>{ unlocked ? "It's Your turn" : "Waiting..." }</div>
+    <div className='container'>{ unlocked ? "It's Your turn" : "Waiting..." }</div>
     <GameBoard boardClick={(n) => unlocked && boardClick(emitter, board, setBoard, n)} board={board}/>
     {
       token.trim().length !== 0 && guestJoined
-      ? <div>
+      ? <div className='container'>
         <p>Use this token to invite a player</p>
         <input type="text" readOnly={true} value={token} ref={tokenInput} /><br />
-        <button onClick={() => copy(tokenInput)} disabled={token.trim().length === 0} >Copy the Token</button>
+        <button class= 'button' onClick={() => copy(tokenInput)} disabled={token.trim().length === 0} >Copy the Token</button>
       </div> 
       : <></>
     }

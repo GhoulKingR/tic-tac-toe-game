@@ -2,7 +2,8 @@ import GameBoard from "./GameBoard";
 
 function GameOver ({ xWon, oWon, board }) {
   return <>
-    <h1>
+    <div className='container'>
+    <h1 >
       {
         xWon ? "You won!"
           : oWon ? "You lost!"
@@ -14,6 +15,7 @@ function GameOver ({ xWon, oWon, board }) {
       restart this app</a>, create a new game, and share the token with a friend.
     </p>
     <h3>Board:</h3>
+    </div>
     <GameBoard board={board} boardClick={() => null} />
   </>
 }

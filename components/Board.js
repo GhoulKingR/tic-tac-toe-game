@@ -39,7 +39,7 @@ function Board ({ emitter, token, setView, board, setBoard }) {
     <div className='container'>{ unlocked ? "It's Your turn" : "Waiting..." }</div>
     <GameBoard boardClick={(n) => unlocked && boardClick(emitter, board, setBoard, n)} board={board}/>
     {
-      token.trim().length !== 0 && guestJoined
+      token.trim().length !== 0 && !guestJoined
       ? <div className='container'>
         <p>Use this token to invite a player</p>
         <input type="text" readOnly={true} value={token} ref={tokenInput} /><br />

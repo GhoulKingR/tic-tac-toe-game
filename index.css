@@ -1,8 +1,25 @@
 .cell {
   height: 78px;
   text-align: center;
-  border: 2px solid #1a2a1a;
+  background-color: white;
   width: 78px;
+}
+
+.board {
+  background-color: #1a2a1a;
+}
+
+.lt {
+  border-top-left-radius: 20px;
+}
+.rt {
+  border-top-right-radius: 20px;
+}
+.lb {
+  border-bottom-left-radius: 20px;
+}
+.rb {
+  border-bottom-right-radius: 20px;
 }
 
 .container {

@@ -26,25 +26,15 @@ function CreateJoin ({ setView, setToken, setEmitter, acc }) {
         <h2>Budget</h2>
         
         <p>
-          With decentralization comes operation costs. The following table 
-          shows the fees that each player needs to pay to play the game without
-          problems.
+          With decentralization comes operation costs. This app includes the following 
+          fees:
         </p>
-
-        <table>
-          <thead>
-            <tr>
-              <td>Host (player 1) </td>
-              <td>Guest (player 2)</td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>0.1</td>
-              <td>0.1</td>
-            </tr>
-          </tbody>
-        </table>
+        <ul>
+          <li>0.1 Algo tokens to create a game (Host only)</li>
+          <li>0.001 Algo tokens to make a move</li>
+          <li>0.002 Algo tokens to delete the game space (Guest only)</li>
+          <li>0.001 ALgo tokens to switch turns (Guest only)</li>
+        </ul>
       </section>
     </div>
   </>

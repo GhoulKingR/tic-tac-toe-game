@@ -6,6 +6,7 @@ This tic-tac-toe project uses Reach for its backend, and React for its frontend.
 ## Prerequisites
 To run this application, you need the following:
 * Reach
+* Docker
 * NodeJS
 
 > **Note**: This directory contains the `reach` executable file for running the application.
